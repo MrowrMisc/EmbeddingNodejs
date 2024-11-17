@@ -1,4 +1,4 @@
-![Node.js Logo](docs/node-logo.svg)
+![Node.js Logo](docs/nodejs-logo.svg)
 
 # Embedding Node.js
 
