@@ -1,4 +1,7 @@
-![Node.js Logo](docs/nodejs-logo.svg)
+<img src="docs/cpp-logo.png" width="80" align="right" />
+
+<img src="docs/nodejs-logo.svg" width="200" align="right" />
+
 
 # Embedding Node.js
 
