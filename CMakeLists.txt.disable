@@ -28,7 +28,7 @@ endif()
 add_executable(
     example-of-embedding-nodejs
     node_snapshot_stub.cpp
-    hello-nodejs.cpp
+    main.cpp
 )
 
 target_compile_options(example-of-embedding-nodejs PRIVATE /MT$<$<CONFIG:Debug>:d>)

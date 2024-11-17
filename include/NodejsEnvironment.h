@@ -4,9 +4,21 @@
 #include <string_view>
 
 #include "node.h"
-#include "uv.h"
 
 namespace Nodejs {
+
+    // Define the ResolveCallback functor
+    class ResolveCallback {
+    public:
+        v8::MaybeLocal<v8::Module> operator()(
+            v8::Local<v8::Context> context, v8::Local<v8::String> specifier,
+            v8::Local<v8::Module> referrer
+        ) {
+            // Module resolution logic goes here.
+            // For simplicity, return an empty MaybeLocal to indicate module not found.
+            return v8::MaybeLocal<v8::Module>();
+        }
+    };
 
     // Class representing an active Node.js environment.
     class NodejsEnvironment {
@@ -30,6 +42,12 @@ namespace Nodejs {
 
         // Shuts down the Node.js environment.
         void shutdown();
+
+        // Define the ResolveCallback function.
+        static v8::MaybeLocal<v8::Module> ResolveCallback(
+            v8::Local<v8::Context> context, v8::Local<v8::String> specifier,
+            v8::Local<v8::FixedArray> import_assertions, v8::Local<v8::Module> referrer
+        );
 
         // Node.js platform and environment setup.
         std::unique_ptr<node::MultiIsolatePlatform>   platform_;
