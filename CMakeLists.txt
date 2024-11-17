@@ -1,0 +1,43 @@
+cmake_minimum_required(VERSION 3.15)
+
+project(EmbeddingNodejs LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(CMAKE_CXX_FLAGS_RELEASE "/MT /Zc:__cplusplus")
+set(CMAKE_CXX_FLAGS_DEBUG "/MTd /Zc:__cplusplus")
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
+include_directories(
+    modules/node/src
+    modules/v8/include
+    modules/libuv/include
+)
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    link_directories(modules/node/out/Debug/lib)
+    add_compile_definitions(_ITERATOR_DEBUG_LEVEL=2)
+    set(CMAKE_CXX_FLAGS_DEBUG "/MTd /Zc:__cplusplus")
+else()
+    link_directories(modules/node/out/Release/lib)
+    add_compile_definitions(_ITERATOR_DEBUG_LEVEL=0)
+    set(CMAKE_CXX_FLAGS_RELEASE "/MT /Zc:__cplusplus")
+endif()
+
+add_executable(
+    example-of-embedding-nodejs
+    node_snapshot_stub.cpp
+    hello-nodejs.cpp
+)
+
+target_compile_options(example-of-embedding-nodejs PRIVATE /MT$<$<CONFIG:Debug>:d>)
+
+target_link_libraries(example-of-embedding-nodejs
+    ada brotli cares histogram icudata icui18n icutools icuucx libnode libuv llhttp nbytes ncrypto nghttp2 nghttp3 ngtcp2 openssl simdjson simdutf sqlite torque_base uvwasi v8_abseil v8_base_without_compiler v8_compiler v8_init v8_initializers_slow v8_initializers v8_libbase v8_libplatform v8_snapshot v8_turboshaft v8_zlib zlib_adler32_simd zlib_inflate_chunk_simd zlib
+)
+
+if(WIN32)
+    target_link_libraries(example-of-embedding-nodejs winmm dbghelp shlwapi user32 userenv ole32 shell32 crypt32 psapi)
+    target_compile_options(example-of-embedding-nodejs PRIVATE /Zc:__cplusplus)
+endif()

@@ -1,0 +1,9 @@
+[submodule "modules/node"]
+	path = modules/node
+	url = https://github.com/nodejs/node.git
+[submodule "modules/v8"]
+	path = modules/v8
+	url = https://github.com/v8/v8.git
+[submodule "modules/libuv"]
+	path = modules/libuv
+	url = https://github.com/libuv/libuv.git
